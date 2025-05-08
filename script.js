@@ -499,6 +499,11 @@ document.addEventListener('DOMContentLoaded', () => {
         chatMessages.innerHTML = ''; 
         activeConversation = flow;
         currentItemIndex = 0;
+        
+        if (activeConversation.length > 0) {
+            displayItem(activeConversation[0]); // Display the first item immediately
+            currentItemIndex = 1; // Advance index to prepare for the next item
+        }
         showNextItem();
     }
 
@@ -512,5 +517,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    showNextItem(); // Initial start with the default conversation (conversationFlow1)
+    // Initial start
+    if (activeConversation.length > 0) {
+        displayItem(activeConversation[0]); // Display the first item of the default conversation immediately
+        currentItemIndex = 1; // Advance index
+    }
+    showNextItem(); // Prepare the next item in the sequence
 }); 
