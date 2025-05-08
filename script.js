@@ -59,9 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
             text: 'Tell me a bit about your lifestyle:\n• Would you call it active or mostly sedentary?\n• Workouts per week?\n• Average sleep per night?'
         },
         { type: 'message', sender: 'user', text: 'pretty active. exercise 3-4 times a week. sleep about 7-8 hours.' },
-        { type: 'message', sender: 'bot', text: 'On a 0-5 scale, how would you rate **stress** in the morning, afternoon, and evening?' },
+        { type: 'message', sender: 'bot', text: 'On a 0–5 scale, how would you rate **stress** in the morning, afternoon, and evening?' },
         { type: 'message', sender: 'user', text: 'sometimes 3 all day. or like morning 4, afternoon 1, evening 3' },
-        { type: 'message', sender: 'bot', text: 'On a 0-5 scale, how would you rate **energy** in the morning, afternoon, and evening?' },
+        { type: 'message', sender: 'bot', text: 'On a 0–5 scale, how would you rate **energy** in the morning, afternoon, and evening?' },
         { type: 'message', sender: 'user', text: 'morning 3.5, afternoon 2, evening 1.' }, 
         {
             type: 'message',
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: 'Thank you for the provided details. Here\'s the initial analysis:\n• **TSH** and **Free T4** are within optimal limits, so the thyroid gland itself is producing hormones adequately.\n• **Free T3** is **low**-this points to impaired conversion of T4 into its active form, T3. Because roughly 60% of that conversion happens in the liver, we need to target liver function first; better hepatic detoxification and bile flow will raise T3 and relieve symptoms.\n• In addition to your elevated thyroid antibodies, the low Free T3 is the primary driver of fatigue, brain fog, hair loss, and constipation.\n• Liver markers **ALT** and **AST** are elevated, and your lipid profile shows high cholesterol and triglycerides. Together, these results suggest **metabolic liver dysfunction**.'
+            text: 'Thank you for the provided details. Here\'s the initial analysis:\n• **TSH** and **Free T4** are within optimal limits, so the thyroid gland itself is producing hormones adequately.\n• **Free T3** is **low**—this points to impaired conversion of T4 into its active form, T3. Because roughly 60% of that conversion happens in the liver, we need to target liver function first; better hepatic detoxification and bile flow will raise T3 and relieve symptoms.\n• In addition to your elevated thyroid antibodies, the low Free T3 is the primary driver of fatigue, brain fog, hair loss, and constipation.\n• Liver markers **ALT** and **AST** are elevated, and your lipid profile shows high cholesterol and triglycerides. Together, these results suggest **metabolic liver dysfunction**.'
         },
         {
             type: 'message',
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: '**Medication**: Ursodiol 250 mg - take two tablets in the morning and one tablet in the evening for 3 months.'
+            text: '**Medication**: Ursodiol 250 mg—take two tablets in the morning and one tablet in the evening for 3 months.'
         },
         {
             type: 'message',
@@ -125,12 +125,12 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: '**Weeks 1 & 2 - Liver focus**\nGoal: enhance detoxification, lower inflammation, and improve bile flow to boost T4→T3 conversion.'
+            text: '**Weeks 1 & 2—Liver focus**\nGoal: enhance detoxification, lower inflammation, and improve bile flow to boost T4→T3 conversion.'
         },
         {
             type: 'message',
             sender: 'bot',
-            text: '**Weeks 3 & 4 - Gut health focus**\nGoal: calm intestinal inflammation, reduce SIBO-related overgrowth, and improve digestion and absorption of macro- and micronutrients.'
+            text: '**Weeks 3 & 4—Gut health focus**\nGoal: calm intestinal inflammation, reduce SIBO-related overgrowth, and improve digestion and absorption of macro- and micronutrients.'
         },
         {
             type: 'message',
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: 'Constipation and bloating tell us the gut is out of balance. About 70% of immune cells live there, so gut repair is critical for dialing down auto-antibodies. We start liver support first because it improves hormone conversion and bile flow - both make the gut protocol more effective in weeks 3-4.'
+            text: 'Constipation and bloating tell us the gut is out of balance. About 70% of immune cells live there, so gut repair is critical for dialing down auto-antibodies. We start liver support first because it improves hormone conversion and bile flow—both make the gut protocol more effective in weeks 3–4.'
         },
         { type: 'system', text: 'End of Scenario 1' },
     ];
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: 'No worries! Quick reminder - a healthy gut helps keep inflammation down, which is key for managing your autoimmune condition. How about adding some sauerkraut on the side? You mentioned yesterday that you have it at home.'
+            text: 'No worries! Quick reminder—a healthy gut helps keep inflammation down, which is key for managing your autoimmune condition. How about adding some sauerkraut on the side? You mentioned yesterday that you have it at home.'
         },
         { type: 'system', text: 'End of Scenario 2' },
     ];
@@ -198,13 +198,13 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: 'Hey again - it\'s been four weeks! At the start, you had fatigue, hair loss, constipation, dry skin, bloating, and irritability. How are you feeling now?'
+            text: 'Hey again—it\'s been four weeks! At the start, you had fatigue, hair loss, constipation, dry skin, bloating, and irritability. How are you feeling now?'
         },
         { type: 'message', sender: 'user', text: 'way more energy, no afternoon naps! bowels regular, no bloating. skin is smoother. less irritable too.' },
         {
             type: 'message',
             sender: 'bot',
-            text: 'That\'s excellent progress 🎉 I\'ve also reviewed your follow-up labs:\n• **ALT & AST** have returned to normal, confirming the liver protocol is working.\n• **Triglycerides** are now in the normal range, and **total cholesterol** has improved-still a bit above target, but trending in the right direction.\n• **Free T3** is climbing, which means T4→T3 conversion is improving.\n\nLowering thyroid antibodies will take longer, but your symptom relief and lab gains show we\'re on track.'
+            text: 'That\'s excellent progress 🎉 I\'ve also reviewed your follow-up labs:\n• **ALT & AST** have returned to normal, confirming the liver protocol is working.\n• **Triglycerides** are now in the normal range, and **total cholesterol** has improved—still a bit above target, but trending in the right direction.\n• **Free T3** is climbing, which means T4→T3 conversion is improving.\n\nLowering thyroid antibodies will take longer, but your symptom relief and lab gains show we\'re on track.'
         },
         {
             type: 'message',
