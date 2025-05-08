@@ -28,19 +28,19 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: 'Great. Please send, in one message:\n• Age\n• Weight (lb or kg)\n• Height (ft/in or cm)'
+            text: 'Great. Please send, in one message:\n\n• Age\n• Weight (lb or kg)\n• Height (ft/in or cm)'
         },
         { type: 'message', sender: 'user', text: '47, 137lb, 5ft 5in' },
         {
             type: 'message',
             sender: 'bot',
-            text: 'During the **last month**, which of these have you experienced? (Add any others)\n• Fatigue\n• Brain fog / poor concentration\n• Hair loss\n• Dry skin\n• Constipation\n• Diarrhea\n• Bloating or gas\n• Anxiety or irritability\n• Weight gain\n• Cold hands or feet without a clear reason\n• Edema (please specify where)\n\nI understand these symptoms can be persistent and frustrating. We\'ll use a systems-based plan to calm the immune attack and support long-term healing.'
+            text: 'During the **last month**, which of these have you experienced? (Add any others)\n\n• Fatigue\n• Brain fog / poor concentration\n• Hair loss\n• Dry skin\n• Constipation\n• Diarrhea\n• Bloating or gas\n• Anxiety or irritability\n• Weight gain\n• Cold hands or feet without a clear reason\n• Edema (please specify where)\n\nI understand these symptoms can be persistent and frustrating. We\'ll use a systems-based plan to calm the immune attack and support long-term healing.'
         },
         { type: 'message', sender: 'user', text: 'fatigue after noon, brain fog, hair loss, dry skin, constipation, bloating gas, and im irritable' },
         {
             type: 'message',
             sender: 'bot',
-            text: 'About constipation and bloating:\n• How often is your bowel movement?\n• How long does the bloating last?'
+            text: 'About constipation and bloating:\n\n• How often is your bowel movement?\n• How long does the bloating last?'
         },
         { type: 'message', sender: 'user', text: 'bm every other day. bloating and gas have bothered me for last 6 months, very uncomfortable.' },
         { type: 'message', sender: 'bot', text: 'When were you first diagnosed with Hashimoto\'s?' },
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: 'Tell me a bit about your lifestyle:\n• Would you call it active or mostly sedentary?\n• Workouts per week?\n• Average sleep per night?'
+            text: 'Tell me a bit about your lifestyle:\n\n• Would you call it active or mostly sedentary?\n• Workouts per week?\n• Average sleep per night?'
         },
         { type: 'message', sender: 'user', text: 'pretty active. exercise 3-4 times a week. sleep about 7-8 hours.' },
         { type: 'message', sender: 'bot', text: 'On a 0–5 scale, how would you rate **stress** in the morning, afternoon, and evening?' },
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: 'Thank you for the provided details. Here\'s the initial analysis:\n• **TSH** and **Free T4** are within optimal limits, so the thyroid gland itself is producing hormones adequately.\n• **Free T3** is **low**—this points to impaired conversion of T4 into its active form, T3. Because roughly 60% of that conversion happens in the liver, we need to target liver function first; better hepatic detoxification and bile flow will raise T3 and relieve symptoms.\n• In addition to your elevated thyroid antibodies, the low Free T3 is the primary driver of fatigue, brain fog, hair loss, and constipation.\n• Liver markers **ALT** and **AST** are elevated, and your lipid profile shows high cholesterol and triglycerides. Together, these results suggest **metabolic liver dysfunction**.'
+            text: 'Thank you for the provided details. Here\'s the initial analysis:\n\n• **TSH** and **Free T4** are within optimal limits, so the thyroid gland itself is producing hormones adequately.\n• **Free T3** is **low**—this points to impaired conversion of T4 into its active form, T3. Because roughly 60% of that conversion happens in the liver, we need to target liver function first; better hepatic detoxification and bile flow will raise T3 and relieve symptoms.\n• In addition to your elevated thyroid antibodies, the low Free T3 is the primary driver of fatigue, brain fog, hair loss, and constipation.\n• Liver markers **ALT** and **AST** are elevated, and your lipid profile shows high cholesterol and triglycerides. Together, these results suggest **metabolic liver dysfunction**.'
         },
         {
             type: 'message',
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: '**Key supplements:**\n• Liposomal glutathione 250 mg daily\n• Zinc 10 mg daily\n• Curcumin 2 g daily combined with black-pepper extract for absorption'
+            text: '**Key supplements:**\n\n• Liposomal glutathione 250 mg daily\n• Zinc 10 mg daily\n• Curcumin 2 g daily combined with black-pepper extract for absorption'
         },
         {
             type: 'message',
@@ -135,7 +135,12 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: '**Nutrition**: Follow the Hashimoto\'s-adapted anti-inflammatory diet outlined in your PDF.\n**Re-check at the end of Week 4**: repeat ALT, AST, bilirubin, Free T3, Free T4, and a lipid panel.'
+            text: '**Nutrition**: Follow the Hashimoto\'s-adapted anti-inflammatory diet outlined in your PDF.'
+        },
+        {
+            type: 'message',
+            sender: 'bot',
+            text: '**Re-check at the end of Week 4**: repeat ALT, AST, bilirubin, Free T3, Free T4, and a lipid panel.'
         },
         {
             type: 'message',
@@ -204,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: 'That\'s excellent progress 🎉 I\'ve also reviewed your follow-up labs:\n• **ALT & AST** have returned to normal, confirming the liver protocol is working.\n• **Triglycerides** are now in the normal range, and **total cholesterol** has improved—still a bit above target, but trending in the right direction.\n• **Free T3** is climbing, which means T4→T3 conversion is improving.\n\nLowering thyroid antibodies will take longer, but your symptom relief and lab gains show we\'re on track.'
+            text: 'That\'s excellent progress 🎉 I\'ve also reviewed your follow-up labs:\n\n• **ALT & AST** have returned to normal, confirming the liver protocol is working.\n• **Triglycerides** are now in the normal range, and **total cholesterol** has improved—still a bit above target, but trending in the right direction.\n• **Free T3** is climbing, which means T4→T3 conversion is improving.\n\nLowering thyroid antibodies will take longer, but your symptom relief and lab gains show we\'re on track.'
         },
         {
             type: 'message',
