@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Configuration ---
-    const TYPING_CHAR_DELAY_MS = 17; // This will now be a base, variation will be added
+    const TYPING_CHAR_DELAY_MS = 34; // This will now be a base, variation will be added
     const BOT_FIXED_RESPONSE_MS = 500; // Bot's "typing" or "thinking" time (0.5 seconds)
     // Delays related to reading time, min/max, initial are removed or set to minimal values
     const MINIMAL_SEQUENTIAL_DELAY_MS = 10; // Small delay to ensure proper async sequencing if needed, almost immediate.
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Conversation Scenarios ---
     const conversationFlow1 = [
-        { type: 'system', text: 'Scenario 1' },
+        { type: 'system', text: 'Today' },
         {
             type: 'message',
             sender: 'bot',
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: 'During the **last month**, which of these have you experienced? (Add any others)\n\n• Fatigue\n• Brain fog / poor concentration\n• Hair loss\n• Dry skin\n• Constipation\n• Diarrhea\n• Bloating or gas\n• Anxiety or irritability\n• Weight gain\n• Cold hands or feet without a clear reason\n• Edema (please specify where)\n\nI understand these symptoms can be persistent and frustrating. We\'ll use a systems-based plan to calm the immune attack and support long-term healing.'
+            text: 'During the **last month**, which of these have you experienced? (Add any others)\n\n• Fatigue\n• Brain fog / poor concentration\n• Hair loss\n• Dry skin\n• Constipation\n• Diarrhea\n• Bloating or gas\n• Anxiety or irritability\n• Weight gain\n• Cold hands or feet with no reason\n• Edema (please specify where)\n\nI understand these symptoms can be persistent and frustrating. We\'ll use a systems-based plan to calm the immune attack and support long-term healing.'
         },
         { type: 'message', sender: 'user', text: 'fatigue after noon, brain fog, hair loss, dry skin, constipation, bloating gas, and im irritable' },
         {
@@ -174,11 +174,10 @@ document.addEventListener('DOMContentLoaded', () => {
             sender: 'bot',
             text: 'Constipation and bloating tell us the gut is out of balance. About 70% of immune cells live there, so gut repair is critical for dialing down auto-antibodies. We start liver support first because it improves hormone conversion and bile flow—both make the gut protocol more effective in weeks 3–4.'
         },
-        { type: 'system', text: 'End of Scenario 1' },
     ];
 
     const conversationFlow2 = [
-        { type: 'system', text: 'Scenario 2' },
+        { type: 'system', text: 'Today' },
         {
             type: 'image',
             sender: 'user',
@@ -195,11 +194,10 @@ document.addEventListener('DOMContentLoaded', () => {
             sender: 'bot',
             text: 'No worries! Quick reminder—a healthy gut helps keep inflammation down, which is key for managing your autoimmune condition. How about adding some sauerkraut on the side? You mentioned yesterday that you have it at home.'
         },
-        { type: 'system', text: 'End of Scenario 2' },
     ];
 
     const conversationFlow3 = [
-        { type: 'system', text: 'Scenario 3' },
+        { type: 'system', text: 'Today' },
         {
             type: 'message',
             sender: 'bot',
@@ -216,7 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
             sender: 'bot',
             text: '**Next step**: keep the gut program going and add targeted immune-modulation support. We\'ll reassess antibodies, cholesterol, and overall progress at the eight-week mark and adjust supplements if needed.'
         },
-        { type: 'system', text: 'End of Scenario 3' },
     ];
 
     let activeConversation = conversationFlow1; // Default to conversationFlow1
