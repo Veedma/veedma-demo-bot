@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: 'During the last month, which of these have you experienced? (Add any others)\n• Fatigue\n• Brain fog / poor concentration\n• Hair loss\n• Dry skin\n• Constipation\n• Diarrhea\n• Bloating or gas\n• Anxiety or irritability\n• Weight gain\n• Cold hands or feet without a clear reason\n• Edema (please specify where)\n\nI understand these symptoms can be persistent and frustrating. We\'ll use a systems-based plan to calm the immune attack and support long-term healing.'
+            text: 'During the **last month**, which of these have you experienced? (Add any others)\n• Fatigue\n• Brain fog / poor concentration\n• Hair loss\n• Dry skin\n• Constipation\n• Diarrhea\n• Bloating or gas\n• Anxiety or irritability\n• Weight gain\n• Cold hands or feet without a clear reason\n• Edema (please specify where)\n\nI understand these symptoms can be persistent and frustrating. We\'ll use a systems-based plan to calm the immune attack and support long-term healing.'
         },
         { type: 'message', sender: 'user', text: 'fatigue after noon, brain fog, hair loss, dry skin, constipation, bloating gas, and im irritable' },
         {
@@ -59,9 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
             text: 'Tell me a bit about your lifestyle:\n• Would you call it active or mostly sedentary?\n• Workouts per week?\n• Average sleep per night?'
         },
         { type: 'message', sender: 'user', text: 'pretty active. exercise 3-4 times a week. sleep about 7-8 hours.' },
-        { type: 'message', sender: 'bot', text: 'On a 0-5 scale, how would you rate stress in the morning, afternoon, and evening?' },
+        { type: 'message', sender: 'bot', text: 'On a 0-5 scale, how would you rate **stress** in the morning, afternoon, and evening?' },
         { type: 'message', sender: 'user', text: 'sometimes 3 all day. or like morning 4, afternoon 1, evening 3' },
-        { type: 'message', sender: 'bot', text: 'On a 0-5 scale, how would you rate energy in the morning, afternoon, and evening?' },
+        { type: 'message', sender: 'bot', text: 'On a 0-5 scale, how would you rate **energy** in the morning, afternoon, and evening?' },
         { type: 'message', sender: 'user', text: 'morning 3.5, afternoon 2, evening 1.' }, 
         {
             type: 'message',
@@ -83,12 +83,12 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: 'Thank you for the provided details. Here\'s the initial analysis:\n• TSH and Free T4 are within optimal limits, so the thyroid gland itself is producing hormones adequately.\n• Free T3 is low-this points to impaired conversion of T4 into its active form, T3. Because roughly 60% of that conversion happens in the liver, we need to target liver function first; better hepatic detoxification and bile flow will raise T3 and relieve symptoms.\n• In addition to your elevated thyroid antibodies, the low Free T3 is the primary driver of fatigue, brain fog, hair loss, and constipation.\n• Liver markers ALT and AST are elevated, and your lipid profile shows high cholesterol and triglycerides. Together, these results suggest metabolic liver dysfunction.'
+            text: 'Thank you for the provided details. Here\'s the initial analysis:\n• **TSH** and **Free T4** are within optimal limits, so the thyroid gland itself is producing hormones adequately.\n• **Free T3** is **low**-this points to impaired conversion of T4 into its active form, T3. Because roughly 60% of that conversion happens in the liver, we need to target liver function first; better hepatic detoxification and bile flow will raise T3 and relieve symptoms.\n• In addition to your elevated thyroid antibodies, the low Free T3 is the primary driver of fatigue, brain fog, hair loss, and constipation.\n• Liver markers **ALT** and **AST** are elevated, and your lipid profile shows high cholesterol and triglycerides. Together, these results suggest **metabolic liver dysfunction**.'
         },
         {
             type: 'message',
             sender: 'bot',
-            text: "Key priority: begin with a liver-focused protocol to restore healthy T4→T3 conversion, stabilize lipids, and reduce antibody-related inflammation. Once liver function improves, we'll layer in gut repair and immune-calming strategies.\n\nAny questions? If you're ready, I'll generate a personalized treatment plan for the first 4 weeks."
+            text: "**Key priority**: begin with a liver-focused protocol to restore healthy T4→T3 conversion, stabilize lipids, and reduce antibody-related inflammation. Once liver function improves, we'll layer in gut repair and immune-calming strategies.\n\nAny questions? If you're ready, I'll generate a personalized treatment plan for the first 4 weeks."
         },
         {
             type: 'message',
@@ -110,37 +110,37 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: 'Baseline labs to order right away: ferritin, iron + TIBC, vitamin D (25-OH), vitamin B12.'
+            text: '**Baseline labs to order right away**: ferritin, iron + TIBC, vitamin D (25-OH), vitamin B12.'
         },
         {
             type: 'message',
             sender: 'bot',
-            text: 'Medication: Ursodiol 250 mg - take two tablets in the morning and one tablet in the evening for 3 months.'
+            text: '**Medication**: Ursodiol 250 mg - take two tablets in the morning and one tablet in the evening for 3 months.'
         },
         {
             type: 'message',
             sender: 'bot',
-            text: 'Key supplements:\n• Liposomal glutathione 250 mg daily\n• Zinc 10 mg daily\n• Curcumin 2 g daily combined with black-pepper extract for absorption'
+            text: '**Key supplements:**\n• Liposomal glutathione 250 mg daily\n• Zinc 10 mg daily\n• Curcumin 2 g daily combined with black-pepper extract for absorption'
         },
         {
             type: 'message',
             sender: 'bot',
-            text: 'Weeks 1 & 2 - Liver focus\nGoal: enhance detoxification, lower inflammation, and improve bile flow to boost T4→T3 conversion.'
+            text: '**Weeks 1 & 2 - Liver focus**\nGoal: enhance detoxification, lower inflammation, and improve bile flow to boost T4→T3 conversion.'
         },
         {
             type: 'message',
             sender: 'bot',
-            text: 'Weeks 3 & 4 - Gut health focus\nGoal: calm intestinal inflammation, reduce SIBO-related overgrowth, and improve digestion and absorption of macro- and micronutrients.'
+            text: '**Weeks 3 & 4 - Gut health focus**\nGoal: calm intestinal inflammation, reduce SIBO-related overgrowth, and improve digestion and absorption of macro- and micronutrients.'
         },
         {
             type: 'message',
             sender: 'bot',
-            text: 'Nutrition: Follow the Hashimoto\'s-adapted anti-inflammatory diet outlined in your PDF.\nRe-check at the end of Week 4: repeat ALT, AST, bilirubin, Free T3, Free T4, and a lipid panel.'
+            text: '**Nutrition**: Follow the Hashimoto\'s-adapted anti-inflammatory diet outlined in your PDF.\n**Re-check at the end of Week 4**: repeat ALT, AST, bilirubin, Free T3, Free T4, and a lipid panel.'
         },
         {
             type: 'message',
             sender: 'bot',
-            text: 'Next step after 4 weeks: adjust the treatment plan based on new labs and symptoms, then add modules for systemic anti-inflammation, lymphatic support, stress regulation, immune balancing, and further antibody reduction.'
+            text: '**Next step after 4 weeks**: adjust the treatment plan based on new labs and symptoms, then add modules for systemic anti-inflammation, lymphatic support, stress regulation, immune balancing, and further antibody reduction.'
         },
         {
             type: 'message',
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: 'Most patients notice more energy and less bloating within about two weeks if they follow the plan closely.'
+            text: 'Most patients notice more energy and less bloating within **about two weeks** if they follow the plan closely.'
         },
         { type: 'message', sender: 'user', text: 'shouldnt gut work start sooner tho with the constipation and bloating?' },
         {
@@ -198,13 +198,18 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: 'Hi again - it\'s been four weeks! At the start, you had fatigue, hair loss, constipation, dry skin, bloating, and irritability. How are you feeling now?'
+            text: 'Hey again - it\'s been four weeks! At the start, you had fatigue, hair loss, constipation, dry skin, bloating, and irritability. How are you feeling now?'
         },
         { type: 'message', sender: 'user', text: 'way more energy, no afternoon naps! bowels regular, no bloating. skin is smoother. less irritable too.' },
         {
             type: 'message',
             sender: 'bot',
-            text: 'That\'s excellent progress 🎉 I\'ve also reviewed your follow-up labs:\n• ALT & AST have returned to normal, confirming the liver protocol is working.\n• Triglycerides are now in the normal range, and total cholesterol has improved-still a bit above target, but trending in the right direction.\n• Free T3 is climbing, which means T4→T3 conversion is improving.\n\nLowering thyroid antibodies will take longer, but your symptom relief and lab gains show we\'re on track. Next step: keep the gut program going and add targeted immune-modulation support. We\'ll reassess antibodies, cholesterol, and overall progress at the eight-week mark and adjust supplements if needed.'
+            text: 'That\'s excellent progress 🎉 I\'ve also reviewed your follow-up labs:\n• **ALT & AST** have returned to normal, confirming the liver protocol is working.\n• **Triglycerides** are now in the normal range, and **total cholesterol** has improved-still a bit above target, but trending in the right direction.\n• **Free T3** is climbing, which means T4→T3 conversion is improving.\n\nLowering thyroid antibodies will take longer, but your symptom relief and lab gains show we\'re on track.'
+        },
+        {
+            type: 'message',
+            sender: 'bot',
+            text: '**Next step**: keep the gut program going and add targeted immune-modulation support. We\'ll reassess antibodies, cholesterol, and overall progress at the eight-week mark and adjust supplements if needed.'
         },
         { type: 'system', text: 'End of Scenario 3' },
     ];
