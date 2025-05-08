@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Conversation Scenarios ---
     const conversationFlow1 = [
-        { type: 'system', text: 'Today' },
         {
             type: 'message',
             sender: 'bot',
@@ -177,7 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const conversationFlow2 = [
-        { type: 'system', text: 'Today' },
         {
             type: 'image',
             sender: 'user',
@@ -197,7 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const conversationFlow3 = [
-        { type: 'system', text: 'Today' },
         {
             type: 'message',
             sender: 'bot',
