@@ -1,0 +1,313 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    background-color: #D1D7DB; /* Adjusted WhatsApp-like background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 480px; /* Slightly wider to accommodate elements */
+    height: 95vh; 
+    max-height: 800px;
+    background-color: #E5DDD5; /* Chat background, often with a pattern */
+    /* If you have a WhatsApp background pattern image, add it here: */
+    /* background-image: url('your-whatsapp-background-pattern.png'); */
+    border-radius: 3px; /* WhatsApp has less rounded corners for the main container */
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.06), 0 2px 5px 0 rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-header {
+    background-color: #008069; /* Updated WhatsApp green for header */
+    color: white;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    min-height: 50px; /* Ensure enough height */
+    justify-content: space-between; /* To space out avatar/info and icons */
+}
+
+.chat-header > img.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.chat-contact-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1; /* Takes available space */
+}
+
+.chat-with {
+    font-weight: 500; /* Medium weight */
+    font-size: 1.1em;
+}
+
+.chat-status {
+    font-size: 0.85em;
+    color: #F0F0F0; /* Lighter color for status */
+    opacity: 0.9;
+}
+
+.header-icons span {
+    margin-left: 20px;
+    font-size: 1.3em; /* Adjust icon size */
+    cursor: pointer;
+    color: #FFFFFF; /* White icons */
+    opacity: 0.9;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 10px 10px 20px 10px; /* More padding at the bottom */
+    overflow-y: auto;
+    background-color: #E5DDD5; /* Default if no image */
+    /* Uncomment and set your background image if you have one */
+    /* background-image: url('https_wallpaper_whatsapp.com/default_wallpaper.png'); */
+    /* background-repeat: repeat; */
+}
+
+.system-message-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.system-message {
+    background-color: #E1F3FB; /* Light blueish for system messages like 'Today' */
+    color: #505050;
+    padding: 5px 12px;
+    border-radius: 7.5px; /* WhatsApp system message bubble */
+    font-size: 0.8em;
+    box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+    text-align: center;
+}
+
+/* Animation for new messages appearing */
+@keyframes messageAppearAnimation {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px); /* Start slightly smaller and lower */
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0); /* End at full size and original position */
+    }
+}
+
+.message-bubble {
+    padding: 6px 9px;
+    border-radius: 7.5px; 
+    max-width: 80%; 
+    line-height: 1.4;
+    position: relative;
+    word-wrap: break-word;
+    box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+    margin-bottom: 2px; 
+    display: flex; 
+    flex-wrap: wrap; 
+    align-items: flex-end; 
+    /* Apply the animation */
+    animation: messageAppearAnimation 0.3s ease-out forwards; /* duration, timing-function, fill-mode */
+}
+
+/* Adjust margin if the next message is from a different sender */
+.message-bubble + .message-bubble.user-message, 
+.message-bubble + .message-bubble.bot-message {
+    /* This logic might be complex if user and bot messages alternate one by one always. */
+    /* For now, general bottom margin is small, this can be refined in JS if needed. */
+}
+.message-bubble.bot-message + .message-bubble.user-message, 
+.message-bubble.user-message + .message-bubble.bot-message {
+    margin-top: 10px; 
+}
+
+.message-content {
+    /* Allow content to take space but also allow meta to be on the same line */
+    margin-right: 5px; /* Small space before meta */
+    word-break: break-word; /* Ensure long words break */
+}
+
+.message-meta {
+    font-size: 0.75em; 
+    color: #667781; 
+    text-align: right;
+    margin-left: auto; /* Push meta to the right for short messages */
+    white-space: nowrap; /* Keep timestamp and checkmarks on one line */
+    padding-top: 4px; /* Align with bottom of text slightly better */
+    align-self: flex-end; /* Ensures it stays at the bottom of the bubble content area */
+}
+
+.user-message .message-meta {
+    color: #61A558; 
+}
+
+.user-message {
+    background-color: #D9FDD3; 
+    align-self: flex-end;
+    margin-left: auto;
+    border-top-right-radius: 0px; /* Ensure sharp corner for tail */
+}
+
+.bot-message {
+    background-color: #FFFFFF; 
+    align-self: flex-start;
+    margin-right: auto;
+    border-top-left-radius: 0px; /* Ensure sharp corner for tail */
+}
+
+/* Remove old tail attempt if it was ::before */
+.message-bubble::before {
+    display: none; /* Just in case there was an old ::before rule */
+}
+
+.message-bubble::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.user-message::after { 
+    right: -7px; /* Slightly adjust for better visual attachment */
+    border-width: 0px 0px 10px 8px; 
+    border-color: transparent transparent transparent #D9FDD3;
+}
+
+.bot-message::after { 
+    left: -7px; /* Slightly adjust for better visual attachment */
+    border-width: 0px 8px 10px 0px; 
+    border-color: transparent #FFFFFF transparent transparent;
+}
+
+.chat-input-area {
+    display: flex;
+    padding: 8px 12px;
+    background-color: #F0F2F5; /* WhatsApp input area background */
+    border-top: 1px solid #D1D7DB;
+    align-items: center;
+}
+
+#userInput {
+    flex-grow: 1;
+    padding: 9px 12px;
+    border: 1px solid #FFFFFF;
+    border-radius: 20px;
+    margin: 0 8px;
+    font-size: 1em;
+    background-color: #FFFFFF;
+}
+
+/* Placeholder for input area icons if it were visible */
+.input-icons span {
+    padding: 8px;
+    font-size: 1.5em;
+    color: #54656F;
+    cursor: pointer;
+}
+
+
+#sendButton { /* If we were to use a send button like WhatsApp (microphone/send) */
+    background-color: #008069; /* WhatsApp action green */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 44px; /* Adjust for a round button */
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.3em; /* For an icon font or SVG inside */
+}
+
+#sendButton:hover {
+    background-color: #00705C;
+}
+
+
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: transparent; 
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: #A8BAC0;
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #8C999E;
+}
+
+/* Styling for File Messages */
+.file-container {
+    display: flex;
+    align-items: center;
+    padding: 5px 0; /* Add some padding around the file info */
+}
+
+.file-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #e0e0e0; /* Placeholder background */
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #555;
+    flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+.file-details {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Hide overflow for long filenames */
+}
+
+.file-name {
+    font-weight: 500; /* Slightly bolder */
+    white-space: nowrap; /* Prevent filename wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for long filenames */
+    color: #000; /* Black filename */
+    margin-bottom: 2px;
+}
+
+.user-message .file-name {
+    color: #000; /* Keep black for user message too, or adjust if needed */
+}
+
+.file-meta-info {
+    font-size: 0.85em;
+    color: #667781; /* Standard meta color */
+}
+
+/* Ensure timestamp is below file info */
+.message-bubble.user-message .message-meta,
+.message-bubble.bot-message .message-meta {
+    margin-top: 4px; /* Add space above the timestamp */
+    align-self: flex-end; /* Ensure it stays right */
+}
+
+/* Adjust bubble padding if necessary when containing a file */
+.message-bubble:has(.file-container) {
+    padding-bottom: 6px; /* Ensure meta timestamp has space */
+} 
