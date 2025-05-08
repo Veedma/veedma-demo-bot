@@ -202,40 +202,20 @@ body {
 #userInput {
     flex-grow: 1;
     padding: 9px 12px;
-    border: 1px solid #FFFFFF;
+    border: 1px solid #CCD1D5; /* Adjusted border for better visibility */
     border-radius: 20px;
     margin: 0 8px;
     font-size: 1em;
+    line-height: 1.4; /* Consistent line height */
     background-color: #FFFFFF;
+    /* Set explicit height and min-height for one line, calculated for 1em*1.4 + 18px padding + 2px border */
+    height: 43px; 
+    min-height: 43px;
+    resize: none; /* Disable manual resizing */
+    overflow-y: hidden; /* Hide scrollbar, JS will handle height */
+    font-family: inherit; /* Inherit font from body */
+    box-sizing: border-box; /* Paddings and border included in height/width */
 }
-
-/* Placeholder for input area icons if it were visible */
-.input-icons span {
-    padding: 8px;
-    font-size: 1.5em;
-    color: #54656F;
-    cursor: pointer;
-}
-
-
-#sendButton { /* If we were to use a send button like WhatsApp (microphone/send) */
-    background-color: #008069; /* WhatsApp action green */
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 44px; /* Adjust for a round button */
-    height: 44px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    font-size: 1.3em; /* For an icon font or SVG inside */
-}
-
-#sendButton:hover {
-    background-color: #00705C;
-}
-
 
 .chat-messages::-webkit-scrollbar {
     width: 6px;

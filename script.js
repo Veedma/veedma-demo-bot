@@ -218,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentTimeoutId = null;
     let spaceKeyListenerActive = false; 
     window.spaceKeyListenerGlobal = null; 
+    let initialInputHeight = ''; // To store initial height
     // --- End Conversation Scenarios & State ---
 
     // --- Helper & Display Functions ---
@@ -358,8 +359,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (userInput) {
+            userInput.readOnly = false; // Make it writable for simulation
             userInput.focus(); 
-            userInput.value = ''; 
+            userInput.value = ''; // Ensure it's empty before setting height
+
+            // Set to the known single-line height on an empty textarea first
+            userInput.style.height = 'auto'; // Reset to auto to allow collapse to content (empty)
+            void userInput.offsetHeight;      // Force reflow
+            userInput.style.height = initialInputHeight; 
+            void userInput.offsetHeight; // Force reflow to apply this starting height
+
             for (let i = 0; i < messageText.length; i++) {
                 const correctChar = messageText[i];
                 let currentWords = userInput.value.split(' ');
@@ -406,9 +415,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Type the correct character
                 userInput.value += correctChar;
-                userInput.scrollLeft = userInput.scrollWidth;
+                
+                const currentScrollTop = userInput.scrollTop; 
+                userInput.style.height = initialInputHeight; // Assume single line is enough initially
+                void userInput.offsetHeight; // Apply this height and let browser calculate scroll/client height
+
+                // If content (scrollHeight) is now greater than the visible area (clientHeight at single-line height)
+                if (userInput.scrollHeight > userInput.clientHeight) {
+                    // Then allow it to grow to the full scrollHeight
+                    userInput.style.height = 'auto';
+                    void userInput.offsetHeight;
+                    userInput.style.height = (userInput.scrollHeight + 2) + 'px'; 
+                }
+                // If not, it stays at initialInputHeight (single line)
+                
+                userInput.scrollTop = currentScrollTop; 
+
+                chatMessages.scrollTop = chatMessages.scrollHeight; 
+
                 await new Promise(resolve => setTimeout(resolve, actualCharDelay));
             }
+        }
+        userInput.readOnly = true; // Make it readonly again
+        if(initialInputHeight) {
+            userInput.style.height = initialInputHeight;
+            userInput.style.overflowY = 'hidden'; // Reset overflow as well
+        } else { 
+            // Fallback if initialInputHeight wasn't captured (should be extremely rare)
+            const computedStyle = window.getComputedStyle(userInput);
+            userInput.style.height = computedStyle.minHeight; 
         }
     }
     
@@ -418,6 +453,16 @@ document.addEventListener('DOMContentLoaded', () => {
             displayChatMessage(userMessageItem.text, 'user');
             userInput.value = ''; 
             userInput.blur(); 
+
+            // Correct place for resetting height and readonly state
+            userInput.readOnly = true; 
+            if(initialInputHeight) {
+                userInput.style.height = initialInputHeight;
+                userInput.style.overflowY = 'hidden'; 
+            } else { 
+                const computedStyle = window.getComputedStyle(userInput);
+                userInput.style.height = computedStyle.minHeight; 
+            }
         }
         currentItemIndex++;
         showNextItem(); 
@@ -466,6 +511,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     spaceKeyListenerActive = false;
                     window.spaceKeyListenerGlobal = null;
                     
+                    if (userInput) userInput.readOnly = true; // Ensure readonly before next action
+
                     // Action after space is pressed
                     if (currentItem.type === 'message' && currentItem.sender === 'user') {
                         // User's text message: simulate typing then display
@@ -499,6 +546,17 @@ document.addEventListener('DOMContentLoaded', () => {
         chatMessages.innerHTML = ''; 
         activeConversation = flow;
         currentItemIndex = 0;
+        if (userInput) {
+            userInput.value = ''; // Clear input on switch
+            userInput.readOnly = true; // Ensure readonly on switch
+            if (initialInputHeight) { // Reset height
+                 userInput.style.height = initialInputHeight;
+            } else {
+                // Fallback if not captured, or calculate based on CSS min-height
+                const computedStyle = window.getComputedStyle(userInput);
+                userInput.style.height = computedStyle.minHeight;
+            }
+        }
         
         if (activeConversation.length > 0) {
             displayItem(activeConversation[0]); // Display the first item immediately
@@ -522,5 +580,9 @@ document.addEventListener('DOMContentLoaded', () => {
         displayItem(activeConversation[0]); // Display the first item of the default conversation immediately
         currentItemIndex = 1; // Advance index
     }
+    if (userInput && !initialInputHeight) { // Capture initial height once after styles are applied
+        initialInputHeight = window.getComputedStyle(userInput).height; // Use .height as it's now explicitly set
+    }
+    if (userInput) userInput.readOnly = true; // Initial state readonly
     showNextItem(); // Prepare the next item in the sequence
 }); 
