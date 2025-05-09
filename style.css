@@ -14,8 +14,6 @@ body {
     height: 95vh; 
     max-height: 800px;
     background-color: #E5DDD5; /* Chat background, often with a pattern */
-    /* If you have a WhatsApp background pattern image, add it here: */
-    /* background-image: url('your-whatsapp-background-pattern.png'); */
     border-radius: 3px; /* WhatsApp has less rounded corners for the main container */
     box-shadow: 0 1px 1px 0 rgba(0,0,0,0.06), 0 2px 5px 0 rgba(0,0,0,0.2);
     display: flex;
@@ -71,9 +69,8 @@ body {
     padding: 10px 10px 20px 10px; /* More padding at the bottom */
     overflow-y: auto;
     background-color: #E5DDD5; /* Default if no image */
-    /* Uncomment and set your background image if you have one */
-    /* background-image: url('https_wallpaper_whatsapp.com/default_wallpaper.png'); */
-    /* background-repeat: repeat; */
+    overflow-x: hidden; /* Important to clip during horizontal slide */
+    position: relative; /* For positioning animated children or itself */
 }
 
 .system-message-wrapper {
@@ -120,12 +117,6 @@ body {
     animation: messageAppearAnimation 0.3s ease-out forwards; /* duration, timing-function, fill-mode */
 }
 
-/* Adjust margin if the next message is from a different sender */
-.message-bubble + .message-bubble.user-message, 
-.message-bubble + .message-bubble.bot-message {
-    /* This logic might be complex if user and bot messages alternate one by one always. */
-    /* For now, general bottom margin is small, this can be refined in JS if needed. */
-}
 .message-bubble.bot-message + .message-bubble.user-message, 
 .message-bubble.user-message + .message-bubble.bot-message {
     margin-top: 10px; 
@@ -163,11 +154,6 @@ body {
     align-self: flex-start;
     margin-right: auto;
     border-top-left-radius: 0px; /* Ensure sharp corner for tail */
-}
-
-/* Remove old tail attempt if it was ::before */
-.message-bubble::before {
-    display: none; /* Just in case there was an old ::before rule */
 }
 
 .message-bubble::after {
@@ -290,6 +276,39 @@ body {
 /* Adjust bubble padding if necessary when containing a file */
 .message-bubble:has(.file-container) {
     padding-bottom: 6px; /* Ensure meta timestamp has space */
+}
+
+/* Swipe Animations for Chat Messages */
+@keyframes slideOutLeft {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(-100%); opacity: 0; }
+}
+.chat-messages-slide-out-left {
+    animation: slideOutLeft 0.3s ease-out forwards;
+}
+
+@keyframes slideInFromRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+.chat-messages-slide-in-from-right {
+    animation: slideInFromRight 0.3s ease-out forwards;
+}
+
+@keyframes slideOutRight {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}
+.chat-messages-slide-out-right {
+    animation: slideOutRight 0.3s ease-out forwards;
+}
+
+@keyframes slideInFromLeft {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+.chat-messages-slide-in-from-left {
+    animation: slideInFromLeft 0.3s ease-out forwards;
 }
 
 /* Make chat full screen on mobile devices */

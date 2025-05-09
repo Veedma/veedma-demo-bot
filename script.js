@@ -1,19 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     const chatMessages = document.querySelector('.chat-messages');
-    const chatInputArea = document.querySelector('.chat-input-area');
     const userInput = document.getElementById('userInput');
-
-    if (chatInputArea) {
-        chatInputArea.style.display = 'flex';
-    }
 
     // --- Configuration ---
     const TYPING_CHAR_DELAY_MS = 34; // This will now be a base, variation will be added
     const BOT_FIXED_RESPONSE_MS = 500; // Bot's "typing" or "thinking" time (0.5 seconds)
-    // Delays related to reading time, min/max, initial are removed or set to minimal values
     const MINIMAL_SEQUENTIAL_DELAY_MS = 10; // Small delay to ensure proper async sequencing if needed, almost immediate.
     const DELAY_AFTER_SPACE_PRESS_MS = 250; // Delay after Space before user typing simulation starts
-    // countWords and calculateTimeMs are no longer needed for conversation flow delays
     // --- End Configuration ---
 
     // --- Conversation Scenarios ---
@@ -222,7 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let armNextItemTriggerListener = null; // Stores the function instance for adding/removing
     let armedListenerTarget = null;        // Stores the target element/window for the listener
     let armedListenerType = null;          // Stores the type of event (e.g., 'keydown', 'click')
-    let isNextItemTriggerArmed = false;    // True if a listener is currently armed
     let initialInputHeight = ''; // To store initial height
     // --- End Conversation Scenarios & State ---
 
@@ -481,7 +473,6 @@ document.addEventListener('DOMContentLoaded', () => {
         armNextItemTriggerListener = null;
         armedListenerTarget = null;
         armedListenerType = null;
-        isNextItemTriggerArmed = false;
     }
 
     function showNextItem() {
@@ -492,7 +483,6 @@ document.addEventListener('DOMContentLoaded', () => {
         cleanupNextItemTriggerListener(); // Always cleanup previous listener first
 
         if (currentItemIndex >= activeConversation.length) {
-            // console.log("End of conversation.");
             return;
         }
 
@@ -570,12 +560,11 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (armedListenerTarget && armedListenerType && armNextItemTriggerListener) {
                 armedListenerTarget.addEventListener(armedListenerType, armNextItemTriggerListener);
-                isNextItemTriggerArmed = true;
             }
         }, preparationDelayMs);
     }
 
-    function switchConversation(flow) {
+    function switchConversation(flow, entryAnimationClass = null) {
         if (currentTimeoutId) {
             clearTimeout(currentTimeoutId);
             currentTimeoutId = null;
@@ -586,19 +575,26 @@ document.addEventListener('DOMContentLoaded', () => {
         activeConversation = flow;
         currentConversationIndex = allConversations.indexOf(flow); // Update the current index
         currentItemIndex = 0;
+
         if (userInput) {
             userInput.value = ''; // Clear input on switch
             userInput.readOnly = true; // Ensure readonly on switch
             if (initialInputHeight) { // Reset height
                  userInput.style.height = initialInputHeight;
             } else {
-                // Fallback if not captured, or calculate based on CSS min-height
                 const computedStyle = window.getComputedStyle(userInput);
                 userInput.style.height = computedStyle.minHeight;
             }
         }
         
         if (activeConversation.length > 0) {
+            if (chatMessages && entryAnimationClass) {
+                chatMessages.classList.add(entryAnimationClass);
+                chatMessages.addEventListener('animationend', function handleSlideInAnimationEnd() {
+                    chatMessages.classList.remove(entryAnimationClass);
+                    chatMessages.removeEventListener('animationend', handleSlideInAnimationEnd);
+                }, { once: true });
+            }
             displayItem(activeConversation[0]); // Display the first item immediately
             currentItemIndex = 1; // Advance index to prepare for the next item
         }
@@ -659,28 +655,40 @@ document.addEventListener('DOMContentLoaded', () => {
         const deltaX = touchEndX - touchStartX;
         const deltaY = touchEndY - touchStartY;
 
-        // Check for horizontal swipe
         if (Math.abs(deltaX) > SWIPE_THRESHOLD_X && Math.abs(deltaY) < SWIPE_VERTICAL_TOLERANCE) {
-            // It's a horizontal swipe, prevent default if it might trigger browser navigation or other undesired scroll.
-            // Note: Depending on where this listener is attached and browser behavior,
-            // preventDefault might be needed in touchstart or touchmove for more aggressive prevention.
-            // For now, doing it here on confirmed swipe.
-            if (event.cancelable) { // Check if the event is cancelable
+            if (event.cancelable) {
                  event.preventDefault();
             }
 
             let newIndex;
-            if (deltaX < 0) { // Swipe Left (finger moves left, content "moves" right for next scenario)
+            let slideOutClass = '';
+            let slideInClassForNew = '';
+
+            if (deltaX < 0) { // Swipe Left (finger moves left, old content slides out left)
                 newIndex = (currentConversationIndex + 1) % allConversations.length;
-            } else { // Swipe Right (finger moves right, content "moves" left for previous scenario)
+                slideOutClass = 'chat-messages-slide-out-left';
+                slideInClassForNew = 'chat-messages-slide-in-from-right';
+            } else { // Swipe Right (finger moves right, old content slides out right)
                 newIndex = (currentConversationIndex - 1 + allConversations.length) % allConversations.length;
+                slideOutClass = 'chat-messages-slide-out-right';
+                slideInClassForNew = 'chat-messages-slide-in-from-left';
             }
-            // Only switch if the index actually changed (it always will with the modulo arithmetic unless there's only 1 scenario)
+
             if (newIndex !== currentConversationIndex) {
-                switchConversation(allConversations[newIndex]);
+                if (chatMessages && slideOutClass) {
+                    chatMessages.classList.add(slideOutClass);
+                    chatMessages.addEventListener('animationend', function handleSlideOutAnimationEnd() {
+                        chatMessages.classList.remove(slideOutClass);
+                        chatMessages.removeEventListener('animationend', handleSlideOutAnimationEnd);
+                        // Now actually switch the conversation and pass the class for the new content to slide in
+                        switchConversation(allConversations[newIndex], slideInClassForNew);
+                    }, { once: true });
+                } else {
+                    // Fallback if no animation, directly switch
+                    switchConversation(allConversations[newIndex]);
+                }
             }
         }
-        // Reset touch start values for the next touch.
         touchStartX = 0;
         touchStartY = 0;
     }
