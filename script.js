@@ -213,11 +213,16 @@ document.addEventListener('DOMContentLoaded', () => {
         },
     ];
 
-    let activeConversation = conversationFlow1; // Default to conversationFlow1
+    const allConversations = [conversationFlow1, conversationFlow2, conversationFlow3];
+    let currentConversationIndex = 0; // Default to the first scenario (index 0)
+    let activeConversation = allConversations[currentConversationIndex]; // Initialize with the first conversation
     let currentItemIndex = 0;
     let currentTimeoutId = null;
-    let spaceKeyListenerActive = false; 
-    window.spaceKeyListenerGlobal = null; 
+    // New state variables for the next item trigger listener
+    let armNextItemTriggerListener = null; // Stores the function instance for adding/removing
+    let armedListenerTarget = null;        // Stores the target element/window for the listener
+    let armedListenerType = null;          // Stores the type of event (e.g., 'keydown', 'click')
+    let isNextItemTriggerArmed = false;    // True if a listener is currently armed
     let initialInputHeight = ''; // To store initial height
     // --- End Conversation Scenarios & State ---
 
@@ -468,24 +473,37 @@ document.addEventListener('DOMContentLoaded', () => {
         showNextItem(); 
     }
 
+    // New helper function to clean up the active next item trigger listener
+    function cleanupNextItemTriggerListener() {
+        if (armNextItemTriggerListener && armedListenerTarget && armedListenerType) {
+            armedListenerTarget.removeEventListener(armedListenerType, armNextItemTriggerListener);
+        }
+        armNextItemTriggerListener = null;
+        armedListenerTarget = null;
+        armedListenerType = null;
+        isNextItemTriggerArmed = false;
+    }
+
     function showNextItem() {
         if (currentTimeoutId) { 
             clearTimeout(currentTimeoutId);
             currentTimeoutId = null;
         }
-        if (spaceKeyListenerActive && typeof window.spaceKeyListenerGlobal === 'function') { 
-            window.removeEventListener('keydown', window.spaceKeyListenerGlobal);
-            spaceKeyListenerActive = false;
-            window.spaceKeyListenerGlobal = null;
-        }
+        cleanupNextItemTriggerListener(); // Always cleanup previous listener first
 
         if (currentItemIndex >= activeConversation.length) {
+            // console.log("End of conversation.");
             return;
         }
 
         const currentItem = activeConversation[currentItemIndex];
 
-        if (currentItem.type === 'system') {
+        // Conditions for automatic display (no trigger needed)
+        // System messages, user-uploaded images, and user-uploaded files are displayed automatically.
+        // The very first message of a scenario is handled by switchConversation or initial load.
+        if (currentItem.type === 'system' ||
+            (currentItem.type === 'image' && currentItem.sender === 'user') ||
+            (currentItem.type === 'file' && currentItem.sender === 'user')) {
             displayItem(currentItem);
             currentItemIndex++;
             // Use a minimal delay to ensure display completes before next step in the queue.
@@ -493,27 +511,37 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // For all other types (user messages/files/images, bot messages/files/images), we wait for Space.
-        // Determine the "preparation" delay before arming the space listener.
+        // For all other types (user messages/files/images, bot messages/files/images), we wait for a trigger.
         let preparationDelayMs = MINIMAL_SEQUENTIAL_DELAY_MS;
         if (currentItem.sender === 'bot') { // Any bot item (message, file, image)
              preparationDelayMs = BOT_FIXED_RESPONSE_MS;
         }
-        // For user items (message, file, image), the preparation delay is MINIMAL_SEQUENTIAL_DELAY_MS.
+        // For user text messages, preparation delay is minimal before arming. 
+        // DELAY_AFTER_SPACE_PRESS_MS applies *after* the trigger.
 
         currentTimeoutId = setTimeout(() => {
-            window.spaceKeyListenerGlobal = function(event) { 
-                if (event.key === ' ' || event.code === 'Space') {
+            const handleTrigger = (event) => {
+                let proceed = false;
+                const isMobileView = window.innerWidth <= 600;
+
+                // Check for desktop trigger (Space key)
+                if (!isMobileView && event.type === 'keydown' && (event.key === ' ' || event.code === 'Space')) {
                     event.preventDefault();
-                    if (typeof window.spaceKeyListenerGlobal === 'function') {
-                       window.removeEventListener('keydown', window.spaceKeyListenerGlobal);
-                    }
-                    spaceKeyListenerActive = false;
-                    window.spaceKeyListenerGlobal = null;
+                    proceed = true;
+                } 
+                // Check for mobile trigger (click)
+                else if (isMobileView && event.type === 'click') {
+                    // If the listener is on chatMessages, any click inside is a trigger.
+                    // Add event.preventDefault() if the click target might have default actions we want to stop.
+                    proceed = true;
+                }
+
+                if (proceed) {
+                    cleanupNextItemTriggerListener(); // Remove this listener once triggered
                     
                     if (userInput) userInput.readOnly = true; // Ensure readonly before next action
 
-                    // Action after space is pressed
+                    // Action after trigger is pressed
                     if (currentItem.type === 'message' && currentItem.sender === 'user') {
                         // User's text message: simulate typing then display
                         setTimeout(() => {
@@ -521,15 +549,29 @@ document.addEventListener('DOMContentLoaded', () => {
                             // processUserTurnAutomated calls showNextItem()
                         }, DELAY_AFTER_SPACE_PRESS_MS); 
                     } else {
-                        // Bot messages (any type), User files, User images: display immediately
+                        // Bot messages (any type), User files (from bot), User images (from bot): display immediately
                         displayItem(currentItem);
                         currentItemIndex++;
                         showNextItem(); // Then prepare the next item in the sequence
                     }
                 }
+            };
+            
+            armNextItemTriggerListener = handleTrigger; // Store the function instance
+
+            const isMobileViewForListener = window.innerWidth <= 600;
+            if (isMobileViewForListener) {
+                armedListenerTarget = chatMessages; // Target the chat messages area for taps
+                armedListenerType = 'click';
+            } else { // Desktop
+                armedListenerTarget = window;
+                armedListenerType = 'keydown';
             }
-            window.addEventListener('keydown', window.spaceKeyListenerGlobal);
-            spaceKeyListenerActive = true;
+            
+            if (armedListenerTarget && armedListenerType && armNextItemTriggerListener) {
+                armedListenerTarget.addEventListener(armedListenerType, armNextItemTriggerListener);
+                isNextItemTriggerArmed = true;
+            }
         }, preparationDelayMs);
     }
 
@@ -538,13 +580,11 @@ document.addEventListener('DOMContentLoaded', () => {
             clearTimeout(currentTimeoutId);
             currentTimeoutId = null;
         }
-        if (spaceKeyListenerActive && typeof window.spaceKeyListenerGlobal === 'function') {
-            window.removeEventListener('keydown', window.spaceKeyListenerGlobal);
-            spaceKeyListenerActive = false;
-            window.spaceKeyListenerGlobal = null;
-        }
+        cleanupNextItemTriggerListener(); // Use the new cleanup function
+
         chatMessages.innerHTML = ''; 
         activeConversation = flow;
+        currentConversationIndex = allConversations.indexOf(flow); // Update the current index
         currentItemIndex = 0;
         if (userInput) {
             userInput.value = ''; // Clear input on switch
@@ -572,6 +612,17 @@ document.addEventListener('DOMContentLoaded', () => {
             switchConversation(conversationFlow2); 
         } else if (event.key === '3') {
             switchConversation(conversationFlow3); 
+        } else if (window.innerWidth > 600) { // Desktop mode for arrow keys
+            let newIndex = -1;
+            if (event.key === 'ArrowRight') {
+                newIndex = (currentConversationIndex + 1) % allConversations.length;
+            } else if (event.key === 'ArrowLeft') {
+                newIndex = (currentConversationIndex - 1 + allConversations.length) % allConversations.length;
+            }
+
+            if (newIndex !== -1 && newIndex !== currentConversationIndex) {
+                switchConversation(allConversations[newIndex]);
+            }
         }
     });
 
@@ -585,4 +636,59 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (userInput) userInput.readOnly = true; // Initial state readonly
     showNextItem(); // Prepare the next item in the sequence
+
+    // Swipe detection logic
+    const SWIPE_THRESHOLD_X = 50; // Min horizontal distance for a swipe
+    const SWIPE_VERTICAL_TOLERANCE = 70; // Max vertical distance allowed during a horizontal swipe
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    function handleTouchStart(event) {
+        if (window.innerWidth > 600) return; // Only on "mobile"
+        touchStartX = event.changedTouches[0].screenX;
+        touchStartY = event.changedTouches[0].screenY;
+    }
+
+    function handleTouchEnd(event) {
+        if (window.innerWidth > 600) return; // Only on "mobile"
+
+        const touchEndX = event.changedTouches[0].screenX;
+        const touchEndY = event.changedTouches[0].screenY;
+
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
+
+        // Check for horizontal swipe
+        if (Math.abs(deltaX) > SWIPE_THRESHOLD_X && Math.abs(deltaY) < SWIPE_VERTICAL_TOLERANCE) {
+            // It's a horizontal swipe, prevent default if it might trigger browser navigation or other undesired scroll.
+            // Note: Depending on where this listener is attached and browser behavior,
+            // preventDefault might be needed in touchstart or touchmove for more aggressive prevention.
+            // For now, doing it here on confirmed swipe.
+            if (event.cancelable) { // Check if the event is cancelable
+                 event.preventDefault();
+            }
+
+            let newIndex;
+            if (deltaX < 0) { // Swipe Left (finger moves left, content "moves" right for next scenario)
+                newIndex = (currentConversationIndex + 1) % allConversations.length;
+            } else { // Swipe Right (finger moves right, content "moves" left for previous scenario)
+                newIndex = (currentConversationIndex - 1 + allConversations.length) % allConversations.length;
+            }
+            // Only switch if the index actually changed (it always will with the modulo arithmetic unless there's only 1 scenario)
+            if (newIndex !== currentConversationIndex) {
+                switchConversation(allConversations[newIndex]);
+            }
+        }
+        // Reset touch start values for the next touch.
+        touchStartX = 0;
+        touchStartY = 0;
+    }
+
+    // Attach swipe listeners to the document or a main container.
+    // Using document here for simplicity, can be scoped to chatContainer if preferred.
+    // Consider passive: false if preventDefault is critical and needs to work reliably.
+    // For now, passive: true on touchstart is okay as preventDefault is conditional in touchend.
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchend', handleTouchEnd, false);
 }); 
