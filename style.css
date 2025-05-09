@@ -290,4 +290,25 @@ body {
 /* Adjust bubble padding if necessary when containing a file */
 .message-bubble:has(.file-container) {
     padding-bottom: 6px; /* Ensure meta timestamp has space */
+}
+
+/* Make chat full screen on mobile devices */
+@media (max-width: 600px) {
+    body {
+        /* Override desktop centering styles if chat-container is full screen */
+        display: block; 
+        align-items: stretch; 
+        justify-content: flex-start;
+        padding: 0; /* Ensure no body padding */
+    }
+
+    .chat-container {
+        width: 100%;
+        height: 100vh; /* Full viewport height */
+        max-width: 100%; /* Override max-width */
+        max-height: 100vh; /* Override max-height */
+        border-radius: 0; /* No rounded corners for full screen */
+        box-shadow: none; /* No shadow for full screen */
+        margin: 0; /* Ensure no container margins */
+    }
 } 
