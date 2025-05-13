@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sender: 'bot',
             text: 'Most patients notice more energy and less bloating within **about two weeks** if they follow the plan closely.'
         },
-        { type: 'message', sender: 'user', text: 'shouldnt gut work start sooner tho with the constipation and bloating?' },
+        { type: 'message', sender: 'user', text: 'why did you include treating the gut if my problem is with the thyroid? is it because of my symptoms?' },
         {
             type: 'message',
             sender: 'bot',
