@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'message',
             sender: 'bot',
-            text: 'Constipation and bloating tell us the gut is out of balance. About 70% of immune cells live there, so gut repair is critical for dialing down auto-antibodies. We start liver support first because it improves hormone conversion and bile flow—both make the gut protocol more effective in weeks 3–4.'
+            text: 'Constipation and bloating are signs that the gut isn’t functioning optimally. About 70% of the immune system is formed and regulated in the gut. In Hashimoto’s, our goal is to calm and rebalance immune activity. If the gut is inflamed, leaky, or the microbiome is disrupted, it can drive systemic inflammation and keep the autoimmune process active. That’s why gut repair isn’t just about symptom relief — it’s a foundation for lowering antibodies and supporting long-term healing.'
         },
     ];
 
